@@ -4,7 +4,9 @@ Setup your Linux laptop for Rails development
 # Installation
 
 This command runs the script in bash to install various awesome applications for development
-`bash <(curl -fsSL https://raw.githubusercontent.com/jellene4eva/laptop/master/install.sh)`
+```
+bash <(curl -fsSL https://raw.githubusercontent.com/jellene4eva/laptop/master/install.sh)
+```
 
 ### Applications includes
 * git
