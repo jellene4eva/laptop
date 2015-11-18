@@ -106,6 +106,12 @@ fancy_echo "Installing node, to render the rails asset pipeline ..."
 fancy_echo "Installing checkinstall, for easy package removal ..."
   sudo aptitude install -y checkinstall
 
+fancy_echo "Installing tmux, a powerful terminal multiplexer..."
+  sudo aptitude install -y tmux
+
+fancy_echo "Installing tmate, instant terminal sharing via SSH..."
+  sudo aptitude install -y tmate
+
 #Switch to zsh shell
 fancy_echo "Changing your shell to zsh ..."
   sudo chsh -s $(which zsh)
@@ -187,21 +193,20 @@ fancy_echo "Configuring Bundler for faster, parallel gem installation ..."
   number_of_cores=$(nproc)
   bundle config --global jobs $((number_of_cores - 1))
 
-#---------------------------------------
-# Tmux installation
-#
-
 if [[ ! -d "$HOME/Applications" ]]; then
   mkdir ~/Applications
 fi
 
-if ! type tmux 2>/dev/null; then
-  git clone git@github.com:tmux/tmux.git ~/Applications/tmux
-  cd ~/Applications/tmux
-  ./autogen.sh
-  ./configure && make
-  sudo checkinstall -y make install
-fi
+#---------------------------------------------------------
+# Tmux >1.9 does not support tmate, revert to ubuntu repo version
+#
+#if ! type tmux 2>/dev/null; then
+  #git clone git@github.com:tmux/tmux.git ~/Applications/tmux
+  #cd ~/Applications/tmux
+  #./autogen.sh
+  #./configure && make
+  #sudo checkinstall -y make install
+#fi
 
 #---------------------------------------
 # lnav installation
