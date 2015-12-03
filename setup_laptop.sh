@@ -78,7 +78,7 @@ fancy_echo "Installing git flow, for git branching model ..."
   sudo aptitude install -y git-flow
 
 fancy_echo "Installing vim, best editor ever! ..."
-  sudo aptitude install -y vim
+  sudo aptitude install -y vim vim-gnome
 
 if [[ ! -d "$HOME/.vim" ]]; then
   git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -109,12 +109,10 @@ fancy_echo "Installing checkinstall, for easy package removal ..."
 fancy_echo "Installing tmux, a powerful terminal multiplexer..."
   sudo aptitude install -y tmux
 
-fancy_echo "Installing tmate, instant terminal sharing via SSH..."
-  sudo aptitude install -y tmate
-
 #Switch to zsh shell
 fancy_echo "Changing your shell to zsh ..."
-  sudo chsh -s $(which zsh)
+  sudo chsh -s $(which zsh) $(whoami)
+  zsh
 
 fancy_echo "Installing Oh-My-Zsh plugin for zsh ..."
   sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
