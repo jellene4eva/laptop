@@ -1,19 +1,9 @@
 #!/bin/bash
 
 sudo sh -c "echo 'deb http://archive.canonical.com/ubuntu/ trusty partner' >> /etc/apt/sources.list.d/canonical_partner.list"
-sudo add-apt-repository ppa:nviennot/tmate
 
 sudo apt-get update
-sudo apt-get install -y tmate
-sudo apt-get install -y mysql-server-5.6
-sudo apt-get install -y gimp
-sudo apt-get install -y rdesktop
 sudo apt-get install -y msttcorefonts
-sudo apt-get install -y skype
-sudo apt-get install -y vlc
 
-gem_install_or_update foreman
 gem_install_or_update teamocil
-
-sudo npm install -g ember-cli
 

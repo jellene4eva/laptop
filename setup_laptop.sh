@@ -57,57 +57,41 @@ gem_install_or_update() {
   fi
 }
 
-#Install aptitude to maintain packages
-fancy_echo "Updating system packages ..."
-  if command -v aptitude >/dev/null; then
-    fancy_echo "Using aptitude ..."
-  else
-    fancy_echo "Installing aptitude ..."
-    sudo apt-get install -y aptitude
-  fi
-
-  #sudo aptitude update
 
 #----------------------------------
 # APT Package installation
 #
 fancy_echo "Installing git, for source control management ..."
-  sudo aptitude install -y git
-
-fancy_echo "Installing git flow, for git branching model ..."
-  sudo aptitude install -y git-flow
+  sudo apt install -y git
 
 fancy_echo "Installing vim, best editor ever! ..."
-  sudo aptitude install -y vim vim-gnome
+  sudo apt install -y vim vim-gnome
 
 if [[ ! -d "$HOME/.vim" ]]; then
   git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 fi
 vim +PluginInstall +qall &> /dev/null
 
-fancy_echo "Installing libraries for common gem dependencies ..."
-  sudo aptitude install -y libgpm-dev libpcre3 libpcre3-dev libevent-dev libncurses-dev automake autotools-dev curl zlib1g-dev build-essential libyaml-dev libssl-dev libxslt1-dev libcurl4-openssl-dev libksba8 libksba-dev libqtwebkit-dev libreadline-dev libxml2-dev
+#fancy_echo "Installing libraries for common gem dependencies ..."
+#  sudo apt install -y libgpm-dev libpcre3 libpcre3-dev libevent-dev libncurses-dev automake autotools-dev curl zlib1g-dev build-essential libyaml-dev libssl-dev libxslt1-dev libcurl4-openssl-dev libksba8 libksba-dev libqtwebkit-dev libreadline-dev libxml2-dev
 
 fancy_echo "Installing sqlite, a common database used by Ruby On Rails ..."
-  sudo aptitude install -y sqlite3 libsqlite3-dev
-
-fancy_echo "Installing Postgres, a good open source relational database ..."
-  sudo aptitude install -y postgresql postgresql-server-dev-all
+  sudo apt install -y sqlite3 libsqlite3-dev
 
 fancy_echo "Installing ImageMagick, to crop and resize images ..."
-  sudo aptitude install -y imagemagick
+  sudo apt install -y imagemagick
 
 fancy_echo "Installing zsh, a better more customizable terminal ..."
-  sudo aptitude install -y zsh
+  sudo apt install -y zsh
 
 fancy_echo "Installing node, to render the rails asset pipeline ..."
-  sudo aptitude install -y nodejs nodejs-dev npm
+  sudo apt install -y nodejs npm
 
 fancy_echo "Installing checkinstall, for easy package removal ..."
-  sudo aptitude install -y checkinstall
+  sudo apt install -y checkinstall
 
 fancy_echo "Installing tmux, a powerful terminal multiplexer..."
-  sudo aptitude install -y tmux
+  sudo apt install -y tmux
 
 #Switch to zsh shell
 fancy_echo "Changing your shell to zsh ..."
@@ -140,81 +124,6 @@ if ! command -v ag >/dev/null; then
   else
     silver_searcher_from_source
   fi
-fi
-
-#------------------------------------
-# rbenv Installation
-#
-if [[ ! -d "$HOME/.rbenv" ]]; then
-  fancy_echo "Installing rbenv, to change Ruby versions ..."
-    git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
-
-    append_to_zshrc 'export PATH="$HOME/.rbenv/bin:$PATH"'
-    append_to_zshrc 'eval "$(rbenv init - zsh --no-rehash)"' 1
-
-    export PATH="$HOME/.rbenv/bin:$PATH"
-    eval "$(rbenv init - zsh)"
-fi
-
-if [[ ! -d "$HOME/.rbenv/plugins/rbenv-gem-rehash" ]]; then
-  fancy_echo "Installing rbenv-gem-rehash so the shell automatically picks up binaries after installing gems with binaries..."
-    git clone https://github.com/sstephenson/rbenv-gem-rehash.git \
-      ~/.rbenv/plugins/rbenv-gem-rehash
-fi
-
-if [[ ! -d "$HOME/.rbenv/plugins/ruby-build" ]]; then
-  fancy_echo "Installing ruby-build, to install Rubies ..."
-    git clone https://github.com/sstephenson/ruby-build.git \
-      ~/.rbenv/plugins/ruby-build
-fi
-
-
-#------------------------------------
-# Ruby Installation
-#
-ruby_version="$(curl -sSL http://ruby.thoughtbot.com/latest)"
-
-fancy_echo "Installing Ruby $ruby_version ..."
-  rbenv install -s "$ruby_version"
-
-fancy_echo "Setting $ruby_version as global default Ruby ..."
-  rbenv global "$ruby_version"
-  rbenv rehash
-
-fancy_echo "Updating to latest Rubygems version ..."
-  gem update --system
-
-fancy_echo "Installing Bundler to install project-specific Ruby gems ..."
-  gem install bundler --no-document --pre
-
-fancy_echo "Configuring Bundler for faster, parallel gem installation ..."
-  number_of_cores=$(nproc)
-  bundle config --global jobs $((number_of_cores - 1))
-
-if [[ ! -d "$HOME/Applications" ]]; then
-  mkdir ~/Applications
-fi
-
-#---------------------------------------------------------
-# Tmux >1.9 does not support tmate, revert to ubuntu repo version
-#
-#if ! type tmux 2>/dev/null; then
-  #git clone git@github.com:tmux/tmux.git ~/Applications/tmux
-  #cd ~/Applications/tmux
-  #./autogen.sh
-  #./configure && make
-  #sudo checkinstall -y make install
-#fi
-
-#---------------------------------------
-# lnav installation
-#
-if ! type lnav 2>/dev/null; then
-  git clone git@github.com:tstack/lnav.git ~/Applications/lnav
-  cd ~/Applications/lnav
-  ./autogen.sh
-  ./configure && make
-  sudo checkinstall -y make install
 fi
 
 #---------------------------------------
